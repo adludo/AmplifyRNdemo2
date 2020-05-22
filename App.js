@@ -17,8 +17,18 @@ import {
 } from 'react-native';
 import Amplify from '@aws-amplify/core';
 import config from './aws-exports';
+import API, { graphqlOperation } from '@aws-amplify/api'
 Amplify.configure(config);
 
+//const AddBook =
+//  mutation($title: String! $author: String) {
+//    createBook(input: {
+//      title: $title
+//      author: $author
+//    }) {
+//      id title author
+//    }
+//};
 
 export default class App extends React.Component {
   state = {
@@ -30,6 +40,19 @@ export default class App extends React.Component {
   onChangeText = (key, val) => {
     this.setState({ [key]: val });
   };
+
+  //addBook = async () => {
+  //  if (this.state.title === '' || this.state.author === '') return;
+  //  const book = { title: this.state.title, author: this.state.author };
+  //  try {
+  //    const books = [...this.state.books, book];
+  //    this.setState({ books, title: '', author: '' });
+  //    await API.graphql(graphqlOperation(AddBook, book))
+  //    console.log('success');
+  //  } catch (err) {
+  //    console.log('error: ', err);
+  //  }
+  //};
 
   render() {
     return (
@@ -49,7 +72,7 @@ export default class App extends React.Component {
         />
 
         <Button
-          onPress={() => alert('Success')}
+          onPress={this.addBook}
           title='Add to TBR'
           color='#eeaa55'
         />
