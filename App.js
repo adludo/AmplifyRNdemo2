@@ -17,12 +17,14 @@ import {
 } from 'react-native';
 
 
-export default function App() {
-  return (
-    <View>
-      <Text>Hello World!</Text>
-    </View>
-  );
+export default class App extends React.Component {
+  render() {
+    return (
+      <View>
+        <Text>Hello World!</Text>
+      </View >
+    );
+  }
 };
 
 const styles = StyleSheet.create({
