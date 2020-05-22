@@ -15,6 +15,9 @@ import {
   Text,
   TextInput,
 } from 'react-native';
+import Amplify from '@aws-amplify/core';
+import config from './aws-exports';
+Amplify.configure(config);
 
 
 export default class App extends React.Component {
