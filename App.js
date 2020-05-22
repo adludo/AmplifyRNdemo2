@@ -10,10 +10,10 @@ import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
-  ScrollView,
+  Button,
   View,
   Text,
-  StatusBar,
+  TextInput,
 } from 'react-native';
 
 
