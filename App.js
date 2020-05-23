@@ -15,20 +15,16 @@ import {
   Text,
   TextInput,
 } from 'react-native';
-import Amplify from '@aws-amplify/core';
-import config from './aws-exports';
-import API, { graphqlOperation } from '@aws-amplify/api'
-Amplify.configure(config);
 
-//const AddBook =
-//  mutation($title: String! $author: String) {
-//    createBook(input: {
-//      title: $title
-//      author: $author
-//    }) {
-//      id title author
-//    }
-//};
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth'
+import config from './aws-exports';
+import { API, graphqlOperation } from '@aws-amplify/api'
+import { createBook } from './src/graphql/mutations'
+import { listBooks } from './src/graphql/queries'
+import awsmobile from './aws-exports';
+
+Amplify.configure(config);
 
 export default class App extends React.Component {
   state = {
@@ -37,10 +33,33 @@ export default class App extends React.Component {
     books: [],
   };
 
+  async componentDidMount () {
+    try {
+      const books = await API.graphql(graphqlOperation(listBooks))
+      console.log("books: ", books)
+      this.setState({ books: books.data.listBooks.items })
+    } catch (err) {
+      console.log("error: ", err)
+    }
+  }
+
   onChangeText = (key, val) => {
     this.setState({ [key]: val });
   };
 
+  addBook = async event => {
+    const { title, author, books } = this.state
+
+    event.preventDefault()
+
+    const input = {
+      title
+    }
+
+    const result = await API.graphql(graphqlOperation(createBook, { input }))
+
+    const newBook = result.data.createBook
+  }
   //addBook = async () => {
   //  if (this.state.title === '' || this.state.author === '') return;
   //  const book = { title: this.state.title, author: this.state.author };
